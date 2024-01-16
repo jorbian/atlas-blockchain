@@ -5,15 +5,15 @@ LIB = lib_hblk_crypto.a
 OBJ_DIR = ./obj
 
 $(LIB): $(patsubst %.c, $(OBJ_DIR)/%.o, $(wildcard *.c))
-    ar rcs $@ $^
+	@ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.c | dirmake
-    $(CC) -c $(CFLAGS) -o $@ $<
+	@$(CC) -c $(CFLAGS) -o $@ $<
 
 dirmake:
-    @mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 clean:
-    rm -f $(OBJ_DIR)/*.o $(LIB) Makefile.bak
+	@rm -f $(OBJ_DIR)/*.o $(LIB) Makefile.bak
 
 rebuild: clean $(LIB)
