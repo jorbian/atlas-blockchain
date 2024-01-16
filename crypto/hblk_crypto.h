@@ -23,12 +23,12 @@
 #define EC_CURVE NID_secp256k1
 /**
  * struct sig_s - EC Signature structure
- * @data: Signature buffer.
- * @len: length of the signature stores in data
+ * @sig: Signature buffer.
+ * @len: length of the signature stores in sig
  */
 typedef struct sig_s
 {
-	uint8_t data[MAX_SIG_LEN];
+	uint8_t sig[MAX_SIG_LEN];
 	uint8_t len;
 } sig_t;
 
