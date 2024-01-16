@@ -17,6 +17,10 @@
 #define EC_PUB_LEN 255
 #define MAX_SIG_LEN 72
 
+#define PUB_FILENAME "key.pem"
+#define PRI_FILENAME "key_priv.pem"
+
+#define EC_CURVE NID_secp256k1
 /**
  * struct sig_s - EC Signature structure
  * @data: Signature buffer.
