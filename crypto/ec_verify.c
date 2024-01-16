@@ -17,5 +17,10 @@ int ec_verify(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 sig_t const *sig
 )
 {
+	(void)key;
+	(void)msg;
+	(void)msglen;
+	(void)sig;
+
 	return (0);
 }

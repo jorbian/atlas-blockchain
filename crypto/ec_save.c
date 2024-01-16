@@ -13,5 +13,8 @@
 */
 int ec_save(EC_KEY *key, char const *folder)
 {
+	(void)key;
+	(void)folder;
+
 	return (0);
 }

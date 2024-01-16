@@ -12,5 +12,7 @@
 */
 EC_KEY *ec_load(char const *folder)
 {
+	(void)folder;
+
 	return (NULL);
 }

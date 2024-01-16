@@ -16,5 +16,10 @@
 uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 sig_t *sig)
 {
+	(void)key;
+	(void)msg;
+	(void)msglen;
+	(void)sig;
+
 	return (NULL);
 }
