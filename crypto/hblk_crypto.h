@@ -24,7 +24,7 @@
  */
 typedef struct sig_s
 {
-	uint8_t sig[MAX_SIG_LEN];
+	uint8_t data[MAX_SIG_LEN];
 	uint8_t len;
 } sig_t;
 
