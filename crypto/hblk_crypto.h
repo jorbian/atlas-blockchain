@@ -1,6 +1,9 @@
 #ifndef HBLK_CRYPTO_H
 #define HBLK_CRYPTO_H
 
+#include <stdlib.h>
+#include <stdint.h>
+
 #include <openssl/ssl.h>
 #include <openssl/sha.h>
 #include <openssl/obj_mac.h>
