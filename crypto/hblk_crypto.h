@@ -14,24 +14,31 @@
 #include <openssl/ecdsa.h>
 #include <openssl/bio.h>
 
-#define EC_PUB_LEN 255
-#define MAX_SIG_LEN 72
+# define EC_CURVE   NID_secp256k1
 
-#define PUB_FILENAME "key.pem"
-#define PRI_FILENAME "key_priv.pem"
+/* EC_KEY public key octet string length (using 256-bit curve) */
+# define EC_PUB_LEN 65
+/* Maximum signature octet string length (using 256-bit curve) */
+# define SIG_MAX_LEN    72
 
-#define EC_CURVE NID_secp256k1
+# define PRI_FILENAME   "key.pem"
+# define PUB_FILENAME   "key_pub.pem"
+
 /**
  * struct sig_s - EC Signature structure
- * @sig: Signature buffer.
- * @len: length of the signature stores in sig
+ *
+ * @sig: Signature buffer. The whole space may not be used
+ * @len: Actual signature size. Can't exceed SIG_MAX_LEN, therefore stored on a byte
  */
 typedef struct sig_s
 {
-	uint8_t sig[MAX_SIG_LEN];
-	uint8_t len;
+    /*
+     * @sig must stay first, so we can directly use the structure as
+     * an array of char
+     */
+    uint8_t     sig[SIG_MAX_LEN];
+    uint8_t     len;
 } sig_t;
-
 
 uint8_t *sha256(int8_t const *s, size_t len,
 	uint8_t digest[SHA256_DIGEST_LENGTH]);

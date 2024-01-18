@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <openssl/sha.h>
+
 #include "hblk_crypto.h"
 
 /**
@@ -8,13 +13,19 @@
  *
  * Return: a pointer to digest
 */
-uint8_t *sha256(int8_t const *s, size_t len,
+uint8_t *sha256(const int8_t *s, size_t len,
 	uint8_t digest[SHA256_DIGEST_LENGTH]
 )
 {
-	(void)s;
-	(void)len;
-	(void)digest;
+	SHA256_CTX sha256Context;
 
-	return (NULL);
+	if (
+		(!SHA256_Init(&sha256Context)) ||
+		(!SHA256_Update(&sha256Context, s, len)) ||
+		(!SHA256_Final(digest, &sha256Context))
+	)
+		return (NULL);
+
+	return (digest);
 }
+
