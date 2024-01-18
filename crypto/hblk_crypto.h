@@ -8,7 +8,6 @@
 #include <openssl/sha.h>
 #include <openssl/obj_mac.h>
 #include <openssl/ec.h>
-#include <openssl/err.h>
 #include <openssl/pem.h>
 #include <openssl/evp.h>
 #include <openssl/ecdsa.h>
@@ -17,10 +16,10 @@
 # define EC_CURVE NID_secp256k1
 
 # define EC_PUB_LEN 65
-# define SIG_MAX_LEN    72
+# define SIG_MAX_LEN 72
 
-# define PRI_FILENAME   "key.pem"
-# define PUB_FILENAME   "key_pub.pem"
+# define PRI_FILENAME "key.pem"
+# define PUB_FILENAME "key_pub.pem"
 
 /**
  * struct sig_s - EC Signature structure
@@ -30,8 +29,8 @@
  */
 typedef struct sig_s
 {
-	uint8_t     sig[SIG_MAX_LEN];
-	uint8_t     len;
+	uint8_t sig[SIG_MAX_LEN];
+	uint8_t len;
 } sig_t;
 
 uint8_t *sha256(int8_t const *s, size_t len,

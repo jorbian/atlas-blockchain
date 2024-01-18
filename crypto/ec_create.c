@@ -1,5 +1,4 @@
 #include <openssl/bio.h>
-#include <openssl/err.h>
 #include <openssl/ec.h>
 #include <openssl/pem.h>
 
@@ -12,16 +11,15 @@
 */
 EC_KEY *ec_create(void)
 {
-	EC_KEY *myecc = NULL;
+	EC_KEY *new_ec_key = NULL;
 
 	OpenSSL_add_all_algorithms();
 
-	myecc = EC_KEY_new_by_curve_name(EC_CURVE);
+	new_ec_key = EC_KEY_new_by_curve_name(EC_CURVE);
 
-	EC_KEY_set_asn1_flag(myecc, OPENSSL_EC_NAMED_CURVE);
-
-	if (!(EC_KEY_generate_key(myecc)))
+	EC_KEY_set_asn1_flag(new_ec_key, OPENSSL_EC_NAMED_CURVE);
+	if (!(EC_KEY_generate_key(new_ec_key)))
 		return (NULL);
 
-	return (myecc);
+	return (new_ec_key);
 }
