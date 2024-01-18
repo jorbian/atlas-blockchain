@@ -11,4 +11,5 @@
 */
 EC_KEY *ec_create(void)
 {
+    return;
 }
