@@ -14,7 +14,7 @@
 #include <openssl/ecdsa.h>
 #include <openssl/bio.h>
 
-# define EC_CURVE   NID_secp256k1
+# define EC_CURVE NID_secp256k1
 
 # define EC_PUB_LEN 65
 # define SIG_MAX_LEN    72
