@@ -1,0 +1,3 @@
+KEY_FILE(PRIVATE, "key.pem")
+KEY_FILE(PUBLIC, "key_pub.pem")
+#undef KEY_FILE
