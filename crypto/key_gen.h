@@ -3,18 +3,9 @@
 
 #define MAX_PATH_LEN 1025
 
-/**
- * key_file_num - storing indecies used to find keyfiles
- * @define: asdf adfs
- * @include: asdf
- * @undef: asdf
-*/
-enum key_file_num
-{
-	#define KEY_FILE(a, b) a,
-		#include "key_file.def"
-	#undef KEY_FILE
-};
+#define PRIVATE 0
+#define PUBLIC 1
+#define NUM_KEYS 2
 
 const char *key_file_names[] = {
 	#define KEY_FILE(a, b) b,
