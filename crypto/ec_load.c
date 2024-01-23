@@ -65,9 +65,16 @@ static uint32_t read_key(uint32_t type_value)
 	if (input_file == NULL)
 		return (1);
 
-	if (!(key_load_functions[type_value])(input_file, &key, NULL, NULL))
-		exit_status = 1;
-
+	if (type_value == 1)
+	{
+		if (!PEM_read_EC_PUBKEY(input_file, &key, NULL, NULL))
+			exit_status = 1;
+	}
+	else
+	{
+		if (!PEM_read_ECPrivateKey(input_file, &key, NULL, NULL))
+			exit_status = 1;
+	}
 	fclose(input_file);
 
 	return (exit_status);
