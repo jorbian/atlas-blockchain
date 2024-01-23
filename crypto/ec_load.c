@@ -65,7 +65,7 @@ static uint32_t read_key(uint32_t type_value)
 	if (input_file == NULL)
 		return (1);
 
-	if (!(*key_load_functions[type_value])(input_file, &key, NULL, NULL))
+	if (!(key_load_functions[type_value])(input_file, &key, NULL, NULL))
 		exit_status = 1;
 
 	fclose(input_file);
