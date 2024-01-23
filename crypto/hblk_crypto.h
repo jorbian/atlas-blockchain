@@ -17,6 +17,7 @@
 
 #define EC_PUB_LEN 65
 #define SIG_MAX_LEN 72
+#define MAX_PATH_LEN 1025
 
 /**
  * struct sig_s - EC Signature structure
