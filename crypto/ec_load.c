@@ -7,8 +7,6 @@
 
 static char path_buff[NUM_KEYS][MAX_PATH_LEN];
 
-static EC_KEY *key;
-
 /**
  * generate_file_paths - generate the designated file paths for folder
  * @folder: folder the key files are eventually supposed to go into
@@ -50,11 +48,12 @@ static int bad_folder_path(char const *folder)
 
 /**
  * read_key -read the key of the specified typevalue
+ * @key: the key being read from
  * @type_value: index of the key type that needs to be read
  *
  * Return: If there was some type of error reading it.
 */
-static uint32_t read_key(uint32_t type_value)
+static uint32_t read_key(EC_KEY *key, uint32_t type_value)
 {
 	FILE *input_file;
 
@@ -87,6 +86,8 @@ static uint32_t read_key(uint32_t type_value)
 */
 EC_KEY *ec_load(char const *folder)
 {
+	EC_KEY *key;
+
 	uint32_t i;
 
 	if (bad_folder_path(folder))
@@ -100,7 +101,7 @@ EC_KEY *ec_load(char const *folder)
 		return (NULL);
 
 	for (i = 0; i < NUM_KEYS; i++)
-		if (read_key(i))
+		if (read_key(key, i))
 		{
 			EC_KEY_free(key);
 			return (NULL);
