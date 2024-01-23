@@ -96,12 +96,14 @@ EC_KEY *ec_load(char const *folder)
 
 	key = EC_KEY_new_by_curve_name(EC_CURVE);
 
+	if (!key)
+		return (NULL);
+
 	for (i = 0; i < NUM_KEYS; i++)
 		if (read_key(i))
 		{
 			EC_KEY_free(key);
 			return (NULL);
 		}
-
 	return (key);
 }
