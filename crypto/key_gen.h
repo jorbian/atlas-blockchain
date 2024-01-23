@@ -20,7 +20,7 @@
 #define PUBLIC 1
 #define NUM_KEYS 2
 
-typedef EC_KEY *(*load_func)(FILE *, EC_KEY **, pem_password_cb *, void *);
+typedef EC_KEY * (*load_func)(FILE *, EC_KEY **, pem_password_cb *, void *);
 
 static const char *key_file_names[] = {
 	#define KEY_FILE(a, b, c) b,
