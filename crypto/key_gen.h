@@ -16,8 +16,8 @@
 
 #define MAX_PATH_LEN 1025
 
-#define PRIVATE 1
-#define PUBLIC 0
+#define PRIVATE 0
+#define PUBLIC 1
 #define NUM_KEYS 2
 
 typedef EC_KEY *(*load_func)(FILE *, EC_KEY **, pem_password_cb *, void *);
