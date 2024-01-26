@@ -11,6 +11,4 @@
 **/*-test
 **/*.a
 */*.pem
-**/_*c*
 **/*.json
-**/provided/*
