@@ -7,5 +7,5 @@
 */
 void block_destroy(block_t *block)
 {
-	(void)block;
+	free(block);
 }

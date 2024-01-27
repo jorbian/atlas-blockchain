@@ -1,5 +1,6 @@
 #include "blockchain.h"
 
+
 /**
  * block_create - creates a Block structure and initializes it.
  * @prev: pointer to the previous Block in the Blockchain
@@ -11,9 +12,18 @@
 block_t *block_create(
 	block_t const *prev, int8_t const *data, uint32_t data_len)
 {
-	(void)prev;
-	(void)data;
-	(void)data_len;
+	uint32_t i;
 
-	return (NULL);
+	block_t *new_block;
+
+	(void)prev;
+
+	if (!data)
+		return (NULL);
+
+	new_block = malloc(sizeof(block_t));
+	if (!new_block)
+		return (NULL);
+
+	return (new_block);
 }
