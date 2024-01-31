@@ -3,15 +3,49 @@
 
 #include "blockchain.h"
 
+/**
+ * add_previous - add previous block in the chain -- if there was one
+ * @prev: pointer to the previous block
+ * @new: the new block in the process of being created.
+ *
+*/
+static void add_previous(block_t const *prev, block_t *new)
+{
+	new->info.index = prev->info.index + 1;
+
+	memcpy(
+		new->info.prev_hash,
+		prev->hash,
+		sizeof(prev->hash)
+	);
+}
 
 /**
- * block_create - creates a Block structure and initializes it.
- * @prev: pointer to the previous Block in the Blockchain
- * @data: points to a memory area to duplicate in the Block’s data
- * @data_len: the number of bytes to duplicate in data
+ * fill_data_in - actually fill the new data in
+ * @new: pointer to the new block being created
+ * @d: the data to be filled in
+ * @len: how long it is in bytes
  *
- * Return: pointer to the allocated Block (or NULL on failure)
 */
+static void fill_data_in(block_t *new, int8_t const *d, uint32_t len)
+{
+	if (len > BLOCKCHAIN_DATA_MAX)
+		len = BLOCKCHAIN_DATA_MAX;
+
+	time((time_t *)&new->info.timestamp);
+
+	memcpy(new->data.buffer, d, len);
+
+	new->data.len = len;
+}
+/**
+ * block_create - Create a new block to go in the blockchain
+ * @prev: The address of the previous block in the blockchain
+ * @data: The place in memory to duplicate to store in the block's data
+ * @data_len: The size in bytes of the data to duplicate and store
+ * Return: The address of the newly created block
+*/
+
 block_t *block_create(
 	block_t const *prev, int8_t const *data, uint32_t data_len)
 {
@@ -21,18 +55,10 @@ block_t *block_create(
 	if (!new_block)
 		return (NULL);
 
-	if (data_len > BLOCKCHAIN_DATA_MAX)
-		data_len = BLOCKCHAIN_DATA_MAX;
-	time((time_t *)&new_block->info.timestamp);
-
-	memcpy(new_block->data.buffer, data, data_len);
-	new_block->data.len = data_len;
-
 	if (prev)
-	{
-		new_block->info.index = prev->info.index + 1;
-		memcpy(new_block->info.prev_hash, prev->hash, sizeof(prev->hash));
-	}
+		add_previous(prev, new_block);
+
+	fill_data_in(new_block, data, data_len);
 
 	return (new_block);
 }
