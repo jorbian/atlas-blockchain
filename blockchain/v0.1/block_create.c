@@ -1,3 +1,6 @@
+#include <string.h>
+#include <time.h>
+
 #include "blockchain.h"
 
 
@@ -12,18 +15,24 @@
 block_t *block_create(
 	block_t const *prev, int8_t const *data, uint32_t data_len)
 {
-	uint32_t i;
-
 	block_t *new_block;
 
-	(void)prev;
-
-	if (!data)
-		return (NULL);
-
-	new_block = malloc(sizeof(block_t));
+	new_block = calloc(1, sizeof(block_t));
 	if (!new_block)
 		return (NULL);
+
+	if (data_len > BLOCKCHAIN_DATA_MAX)
+		data_len = BLOCKCHAIN_DATA_MAX;
+	time((time_t *)&new_block->info.timestamp);
+
+	memcpy(new_block->data.buffer, data, data_len);
+	new_block->data.len = data_len;
+
+	if (prev)
+	{
+		new_block->info.index = prev->info.index + 1;
+		memcpy(new_block->info.prev_hash, prev->hash, sizeof(prev->hash));
+	}
 
 	return (new_block);
 }

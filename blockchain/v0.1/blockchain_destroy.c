@@ -7,7 +7,5 @@
 */
 void blockchain_destroy(blockchain_t *blockchain)
 {
-    (void)blockchain;
-
-    return;
+	(void)blockchain;
 }

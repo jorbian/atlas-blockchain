@@ -9,6 +9,5 @@
 **/test.c
 **/*.sh
 **/*-test
-**/*.a
 */*.pem
 **/*.json
