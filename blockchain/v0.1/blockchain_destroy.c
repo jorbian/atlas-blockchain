@@ -1,11 +1,18 @@
+#include <stdlib.h>
+
 #include "blockchain.h"
 
 /**
- * blockchain_destroy - deletes existing Blockchain, and all Blocks it contains
- * @blockchain: points to the Blockchain structure to delete
+ * _blockchain_destroy - Deallocates a Blockchain structure
  *
-*/
-void blockchain_destroy(blockchain_t *blockchain)
+ * @blockchain: Pointer to the Blockchain structure to be freed
+ */
+void _blockchain_destroy(blockchain_t *blockchain)
 {
-	(void)blockchain;
+	if (!blockchain)
+		return;
+
+	llist_destroy(blockchain->chain, 1, (node_dtor_t)free);
+
+	free(blockchain);
 }

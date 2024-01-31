@@ -29,11 +29,12 @@ static void add_previous(block_t const *prev, block_t *new)
 */
 static void fill_data_in(block_t *new, int8_t const *d, uint32_t len)
 {
+	time((time_t *)&new->info.timestamp);
+
 	if (len > BLOCKCHAIN_DATA_MAX)
 		len = BLOCKCHAIN_DATA_MAX;
 
-	time((time_t *)&new->info.timestamp);
-
+	printf("LENGTH: %d\n\n\n", len);
 	memcpy(new->data.buffer, d, len);
 
 	new->data.len = len;
@@ -45,7 +46,6 @@ static void fill_data_in(block_t *new, int8_t const *d, uint32_t len)
  * @data_len: The size in bytes of the data to duplicate and store
  * Return: The address of the newly created block
 */
-
 block_t *block_create(
 	block_t const *prev, int8_t const *data, uint32_t data_len)
 {
