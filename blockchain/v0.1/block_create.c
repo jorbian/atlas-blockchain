@@ -34,7 +34,6 @@ static void fill_data_in(block_t *new, int8_t const *d, uint32_t len)
 	if (len > BLOCKCHAIN_DATA_MAX)
 		len = BLOCKCHAIN_DATA_MAX;
 
-	printf("LENGTH: %d\n\n\n", len);
 	memcpy(new->data.buffer, d, len);
 
 	new->data.len = len;
