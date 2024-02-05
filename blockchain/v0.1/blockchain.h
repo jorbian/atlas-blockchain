@@ -75,7 +75,7 @@ typedef struct block_s
 	uint8_t hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
-const block_t _genesis = {
+static const block_t _genesis = {
 	{ /* info */
 		0 /* index */,
 		0, /* difficulty */
