@@ -8,7 +8,7 @@
 */
 uint32_t blockchain_difficulty(blockchain_t const *blockchain)
 {
-    (void)blockchain;
+	(void)blockchain;
 
-    return (0);
+	return (0);
 }

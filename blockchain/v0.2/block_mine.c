@@ -7,5 +7,5 @@
 */
 void block_mine(block_t *block)
 {
-    (void)block;
+	(void)block;
 }
