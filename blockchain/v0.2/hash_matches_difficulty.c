@@ -12,4 +12,5 @@ int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH], uint32_t d
 	(void)hash;
 	(void)difficulty;
 
+	return (0);
 }
