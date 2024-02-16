@@ -10,8 +10,7 @@
 static uint32_t count_leading_zeros(uint8_t const *array, uint32_t size)
 {
 	uint32_t leading_zeros = 0;
-
-	int32_t i, j, value;
+	uint32_t i, j, value;
 
 	for (i = 0; i < size; i++)
 	{
