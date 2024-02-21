@@ -16,7 +16,7 @@ static uint32_t count_leading_zeros(uint8_t const *array, uint32_t size)
 	{
 		value = array[i];
 
-		for (j = 7; j != 0; j--)
+		for (j = 7; j ; j--)
 		{
 			if ((value >> j) & 1)
 				break;
