@@ -9,10 +9,10 @@
 */
 static uint32_t count_leading_zeros(uint8_t const *array, uint32_t size)
 {
-	uint32_t count = 0, i = 0;
-	int32_t j, value;
+	uint32_t leading_zeros = 0;
+	int32_t i, j, value;
 
-	for (; i < size; i++)
+	for (i = 0; i < (int32_t)size; i++)
 	{
 		value = array[i];
 
@@ -21,16 +21,12 @@ static uint32_t count_leading_zeros(uint8_t const *array, uint32_t size)
 			if ((value >> j) & 1)
 				break;
 
-			else
-				count++;
+			leading_zeros++;
 		}
-
 		if ((value >> j) & 1)
 			break;
-
 	}
-
-	return (count);
+	return (leading_zeros);
 }
 
 /**
