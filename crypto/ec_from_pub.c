@@ -25,26 +25,22 @@ EC_KEY *ec_from_pub(uint8_t const pub[EC_PUB_LEN])
 	ec_point = EC_POINT_new(ec_group);
 
 	if (!ec_point)
-	{
-		EC_KEY_free(ec_key);
-		return (NULL);
-	}
+		goto no_point;
 
-	if (!EC_POINT_oct2point(ec_group, ec_point, pub, EC_PUB_LEN, NULL))
-	{
-		EC_KEY_free(ec_key);
-		EC_POINT_free(ec_point);
-		return (NULL);
-	}
-
-	if (!EC_KEY_set_public_key(ec_key, ec_point))
-	{
-		EC_KEY_free(ec_key);
-		EC_POINT_free(ec_point);
-		return (NULL);
-	}
+	if (
+		(!EC_POINT_oct2point(ec_group, ec_point, pub, EC_PUB_LEN, NULL)) ||
+		(!EC_KEY_set_public_key(ec_key, ec_point))
+	)
+		goto failure;
 
 	EC_POINT_free(ec_point);
 
 	return (ec_key);
+
+failure:
+	EC_POINT_free(ec_point);
+
+no_point:
+	EC_KEY_free(ec_key);
+	return (NULL);
 }
