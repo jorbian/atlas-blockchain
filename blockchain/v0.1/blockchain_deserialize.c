@@ -42,7 +42,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 	uint32_t size;
 	blockchain_t *blockchain = calloc(1, sizeof(blockchain_t));
 
-	if (!path == NULL)
+	if (!path)
 		return (NULL);
 	
 	if (!fd)
