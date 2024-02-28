@@ -28,7 +28,7 @@ static int deal_with_first(block_t const *block)
 }
 
 /**
- * deal_with_first - branch if it's the first block in chain
+ * deal_with_nth - branch if it's the first block in chain
  * @block: the block we're looking at.
  * @prev_block: points to previous Block in the chain (or NULL)
  *
