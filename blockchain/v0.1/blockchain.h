@@ -10,7 +10,8 @@
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define SHA256_DIGEST_LENGTH 32
-#define CANT_HASH(b, hb) !block_hash(b, hb)
+#define BAD_HASH(b, hb) (\
+	!block_hash(b, hb) || memcmp(hb, b->hash, SHA256_DIGEST_LENGTH))
 
 /**
  * struct block_info_s - Block info structure
