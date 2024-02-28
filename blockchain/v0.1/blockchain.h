@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
-#include "llist.h"
+#include <llist.h>
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define SHA256_DIGEST_LENGTH 32
