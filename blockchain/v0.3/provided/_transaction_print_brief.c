@@ -5,7 +5,7 @@
 
 void _print_hex_buffer(uint8_t const *buf, size_t len);
 
-int _transaction_print_brief_loop(const transaction_t *transaction,
+int _transaction_print_brief_loop(transaction_t const *transaction,
 	unsigned int idx, char const *indent)
 {
 	tx_out_t const *out;

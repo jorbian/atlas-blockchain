@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "transaction.h"
 #include "blockchain.h"
+#include "transaction.h"
 
 void _print_hex_buffer(uint8_t const *buf, size_t len);
-int _transaction_print_loop(const transaction_t *transaction,
+int _transaction_print_loop(transaction_t const *transaction,
 	unsigned int idx, char const *indent);
-int _transaction_print_brief_loop(const transaction_t *transaction,
+int _transaction_print_brief_loop(transaction_t const *transaction,
 	unsigned int idx, char const *indent);
 
 /**
@@ -60,7 +60,6 @@ static int _block_print(block_t const *block, unsigned int index,
 	printf("\n%s}\n", indent);
 
 	(void)index;
-
 	return (0);
 }
 
