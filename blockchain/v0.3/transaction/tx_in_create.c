@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -9,5 +9,7 @@
 */
 tx_in_t *tx_in_create(unspent_tx_out_t const *unspent)
 {
-    return (NULL);
+	(void)unspent;
+
+	return (NULL);
 }

@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -10,8 +10,12 @@
  * Return: pointer to created unspent_tx_out_t upon success (or NULL)
 */
 unspent_tx_out_t *unspent_tx_out_create(
-    uint8_t block_hash[SHA256_DIGEST_LENGTH],
-    uint8_t tx_id[SHA256_DIGEST_LENGTH], tx_out_t const *out)
+	uint8_t block_hash[SHA256_DIGEST_LENGTH],
+	uint8_t tx_id[SHA256_DIGEST_LENGTH], tx_out_t const *out)
 {
-    return (NULL);
+	(void)block_hash;
+	(void)tx_id;
+	(void)out;
+
+	return (NULL);
 }

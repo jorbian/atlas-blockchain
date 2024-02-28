@@ -1,8 +1,8 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
- * coinbase_is_valid -
+ * coinbase_is_valid - checks whether a coinbase transaction is valid
  * @coinbase: points to the coinbase transaction to verify
  * @block_index: index of Block the coinbase transaction will belong to
  *
@@ -10,5 +10,8 @@
 */
 int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index)
 {
-    return (0);
+	(void)coinbase;
+	(void)block_index;
+
+	return (0);
 }

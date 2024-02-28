@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -10,9 +10,13 @@
  * Return: a new list of unspent transaction outputs
 */
 llist_t *update_unspent(
-    llist_t *transactions,
-    uint8_t block_hash[SHA256_DIGEST_LENGTH],
-    llist_t *all_unspent)
+	llist_t *transactions,
+	uint8_t block_hash[SHA256_DIGEST_LENGTH],
+	llist_t *all_unspent)
 {
-    return (NULL);
+	(void)transactions;
+	(void)block_hash;
+	(void)all_unspent;
+
+	return (NULL);
 }

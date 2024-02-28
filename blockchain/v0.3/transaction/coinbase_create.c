@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -12,5 +12,8 @@ transaction_t *coinbase_create(
 	EC_KEY const *receiver,
 	uint32_t block_index)
 {
+	(void)receiver;
+	(void)block_index;
+
 	return (NULL);
 }

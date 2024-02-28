@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -12,5 +12,8 @@ uint8_t *transaction_hash(
 	transaction_t const *transaction,
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
+	(void)transaction;
+	(void)hash_buf;
+
 	return (NULL);
 }

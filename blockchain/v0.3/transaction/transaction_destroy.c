@@ -1,4 +1,4 @@
-#include "../blockchain.h"
+#include "blockchain.h"
 #include "transaction.h"
 
 /**
@@ -8,5 +8,5 @@
 */
 void transaction_destroy(transaction_t *transaction)
 {
-	return;
+	(void)transaction;
 }

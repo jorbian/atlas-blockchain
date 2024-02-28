@@ -27,27 +27,28 @@
  * struct sig_s - EC Signature structure
  *
  * @sig: Signature buffer. The whole space may not be used
- * @len: Actual signature size. Can't exceed SIG_MAX_LEN, therefore stored on a byte
+ * @len: Actual signature size. Can't exceed SIG_MAX_LEN
  */
 typedef struct sig_s
 {
-    /*
-     * @sig must stay first, so we can directly use the structure as
-     * an array of char
-     */
-    uint8_t     sig[SIG_MAX_LEN];
-    uint8_t     len;
+	/*
+	 * @sig must stay first, so we can directly use the structure as
+	 * an array of char
+	 */
+	uint8_t     sig[SIG_MAX_LEN];
+	uint8_t     len;
 } sig_t;
 
 /**
  * struct blockchain_s - Blockchain structure
  *
  * @chain: Linked list of pointers to block_t
+ * @unspent: unspent part
  */
 typedef struct blockchain_s
 {
-    llist_t     *chain;
-    llist_t     *unspent;
+	llist_t     *chain;
+	llist_t     *unspent;
 } blockchain_t;
 
 /**
@@ -61,18 +62,18 @@ typedef struct blockchain_s
  */
 typedef struct block_info_s
 {
-    /*
-     * The order of the elements in this structure should remain the same.
-     * It was designed so every element of this structure is aligned and
-     * doesn't require padding from the compiler.
-     * Therefore, it is possible to use the structure as an array of char,
-     * on any architecture.
-     */
-    uint32_t    index;
-    uint32_t    difficulty;
-    uint64_t    timestamp;
-    uint64_t    nonce;
-    uint8_t     prev_hash[SHA256_DIGEST_LENGTH];
+	/*
+	 * The order of the elements in this structure should remain the same.
+	 * It was designed so every element of this structure is aligned and
+	 * doesn't require padding from the compiler.
+	 * Therefore, it is possible to use the structure as an array of char,
+	 * on any architecture.
+	 */
+	uint32_t    index;
+	uint32_t    difficulty;
+	uint64_t    timestamp;
+	uint64_t    nonce;
+	uint8_t     prev_hash[SHA256_DIGEST_LENGTH];
 } block_info_t;
 
 /**
@@ -80,14 +81,15 @@ typedef struct block_info_s
  *
  * @info: Block info
  * @data: Block data
+ * @transactions: transactions
  * @hash: 256-bit digest of the Block, to ensure authenticity
  */
 typedef struct block_s
 {
-    block_info_t    info; /* This must stay first */
-    block_data_t    data; /* This must stay second */
-    llist_t     *transactions;
-    uint8_t     hash[SHA256_DIGEST_LENGTH];
+	block_info_t    info; /* This must stay first */
+	block_data_t    data; /* This must stay second */
+	llist_t     *transactions;
+	uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
 /**
@@ -98,12 +100,12 @@ typedef struct block_s
  */
 typedef struct block_data_s
 {
-    /*
-     * @buffer must stay first, so we can directly use the structure as
-     * an array of char
-     */
-    int8_t      buffer[BLOCKCHAIN_DATA_MAX];
-    uint32_t    len;
+	/*
+	 * @buffer must stay first, so we can directly use the structure as
+	 * an array of char
+	 */
+	int8_t      buffer[BLOCKCHAIN_DATA_MAX];
+	uint32_t    len;
 } block_data_t;
 
 blockchain_t *blockchain_create(void);
