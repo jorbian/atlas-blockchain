@@ -51,7 +51,7 @@ static int _tx_out_print(tx_out_t const *out, unsigned int idx,
 	return (0);
 }
 
-int _transaction_print_loop(transaction_t const *transaction,
+int _transaction_print_loop(const transaction_t *transaction,
 	unsigned int idx, char const *indent)
 {
 	if (!transaction)
