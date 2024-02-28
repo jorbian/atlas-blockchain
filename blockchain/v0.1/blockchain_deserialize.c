@@ -8,7 +8,6 @@
  *
  * Return: Pointer to the updated blockchain
  */
-
 static blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
 {
 	block_t *block;
@@ -29,6 +28,23 @@ static blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
 }
 
 /**
+ * access_file - see if we can access the file
+ * @fd: DOUBLE file pointer
+ * @path: path of the file we're attempting to acess
+ *
+ * Return: 0 on sucess, -1 on failure
+*/
+static uint8_t access_file(FILE **fd, char const *path)
+{
+	FILE *fd = fopen(path, "r");
+
+	if (!*fd)
+		return (-1);
+
+	return (0);
+}
+
+/**
  * blockchain_deserialize - deserializes a Blockchain from a file
  * @path: contains the path to a file to load the Blockchain from
  *
@@ -36,17 +52,15 @@ static blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
 */
 blockchain_t *blockchain_deserialize(char const *path)
 {
-	FILE *fd = fopen(path, "r");
+	FILE *fd;
 	char buf[4] = {0};
 	uint8_t end;
 	uint32_t size;
 	blockchain_t *blockchain = calloc(1, sizeof(blockchain_t));
 
-	if (!path)
+	if (!path || (access_file(&fd, path) != 0))
 		return (NULL);
 	
-	if (!fd)
-		return (NULL);
 	fread(buf, sizeof(uint8_t), 4, fd);
 	fread(buf, sizeof(uint8_t), 3, fd);
 	fread(&end, sizeof(uint8_t), 1, fd);
