@@ -71,8 +71,6 @@ static blockchain_t *create_new_blockchain()
 blockchain_t *blockchain_deserialize(char const *path)
 {
 	FILE *fd;
-	char buf[8] = {0};
-	uint8_t end;
 	uint32_t size;
 
 	blockchain_t *blockchain;
@@ -84,8 +82,8 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 	if (blockchain != NULL)
 	{
-		fread(buf, sizeof(uint8_t), 7, fd);
-		fread(&end, sizeof(uint8_t), 1, fd);
+		fseek(fd, 0, 9);
+
 		fread(&size, sizeof(uint32_t), 1, fd);
 		
 		blockchain = write_blocks(size, fd, blockchain);
