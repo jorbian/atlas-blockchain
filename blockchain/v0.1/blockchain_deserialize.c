@@ -35,7 +35,6 @@ static block_t *add_block(FILE *fd, blockchain_t *chain)
  */
 static blockchain_t *write_blocks(FILE *fd, blockchain_t *chain)
 {
-	block_t *block;
 	uint8_t end;
 	uint32_t i, size;
 
