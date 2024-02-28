@@ -24,22 +24,6 @@
 #define PUB_FILENAME   "key_pub.pem"
 
 /**
- * struct sig_s - EC Signature structure
- *
- * @sig: Signature buffer. The whole space may not be used
- * @len: Actual signature size. Can't exceed SIG_MAX_LEN
- */
-typedef struct sig_s
-{
-	/*
-	 * @sig must stay first, so we can directly use the structure as
-	 * an array of char
-	 */
-	uint8_t     sig[SIG_MAX_LEN];
-	uint8_t     len;
-} sig_t;
-
-/**
  * struct block_data_s - Block data
  *
  * @buffer: Data buffer
