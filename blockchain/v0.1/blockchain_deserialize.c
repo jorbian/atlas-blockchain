@@ -45,6 +45,24 @@ static uint8_t access_file(FILE **fd, char const *path)
 }
 
 /**
+ * create_new_blockchain - allocates memory for an inits new blockchain
+ *
+ * Return: pointer to the new struct
+*/
+static blockchain_t *create_new_blockchain()
+{
+	blockchain_t *new_blockchain;
+
+	new_blockchain = calloc(1, sizeof(blockchain_t));
+
+	if (!new_blockchain)
+		return (NULL);
+
+	new_blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+
+	return (new_blockchain);
+}
+/**
  * blockchain_deserialize - deserializes a Blockchain from a file
  * @path: contains the path to a file to load the Blockchain from
  *
@@ -53,19 +71,19 @@ static uint8_t access_file(FILE **fd, char const *path)
 blockchain_t *blockchain_deserialize(char const *path)
 {
 	FILE *fd;
-	char buf[4] = {0};
+	char buf[8] = {0};
 	uint8_t end;
 	uint32_t size;
-	blockchain_t *blockchain = calloc(1, sizeof(blockchain_t));
+
+	blockchain_t *blockchain;
 
 	if (!path || (access_file(&fd, path) != 0))
 		return (NULL);
-	
-	fread(buf, sizeof(uint8_t), 4, fd);
-	fread(buf, sizeof(uint8_t), 3, fd);
+
+	fread(buf, sizeof(uint8_t), 7, fd);
 	fread(&end, sizeof(uint8_t), 1, fd);
 	fread(&size, sizeof(uint32_t), 1, fd);
-	blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+	
 	blockchain = write_blocks(size, fd, blockchain);
 	fclose(fd);
 
