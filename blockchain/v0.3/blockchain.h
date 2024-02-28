@@ -11,17 +11,9 @@
 #include <time.h>
 
 #include "llist.h"
+#include "../../crypto/hblk_crypto.h"
 
-/* EC_KEY public key octet string length (using 256-bit curve) */
-#define EC_PUB_LEN 65
-/* Maximum signature octet string length (using 256-bit curve) */
-#define SIG_MAX_LEN    72
-
-#define COINBASE_AMOUNT    50
 #define BLOCKCHAIN_DATA_MAX 1024
-
-#define PRI_FILENAME   "key.pem"
-#define PUB_FILENAME   "key_pub.pem"
 
 /**
  * struct block_data_s - Block data

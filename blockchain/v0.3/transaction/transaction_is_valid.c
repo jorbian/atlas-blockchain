@@ -1,4 +1,3 @@
-#include "blockchain.h"
 #include "transaction.h"
 
 /**

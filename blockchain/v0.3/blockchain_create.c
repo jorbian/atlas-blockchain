@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "blockchain.h"
+#include "hblk_crypto.h"
 
 static block_t const _genesis = {
 	{ /* info */
