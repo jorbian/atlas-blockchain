@@ -42,7 +42,7 @@ static int deal_with_nth(block_t const *block, block_t const *prev_block)
 	if (block->info.index != prev_block->info.index + 1)
 		return (1);
 
-	if (BAD_HASH(prev_block, hash_buf) || BAD_HASH(block, hash_buf))
+	if (BAD_HASH_SIZE(prev_block, hash_buf) || BAD_HASH_SIZE(block, hash_buf))
 		return (1);
 
 	if (memcmp(prev_block->hash, block->info.prev_hash, SHA256_DIGEST_LENGTH))

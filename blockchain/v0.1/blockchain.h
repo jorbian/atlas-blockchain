@@ -10,7 +10,7 @@
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define SHA256_DIGEST_LENGTH 32
-#define BAD_HASH(b, hb) (\
+#define BAD_HASH_SIZE(b, hb) (\
 	!block_hash(b, hb) || memcmp(hb, b->hash, SHA256_DIGEST_LENGTH))
 
 /**
