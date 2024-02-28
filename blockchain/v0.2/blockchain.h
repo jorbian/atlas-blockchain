@@ -4,11 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
-#include "llist.h"
+#include <llist.h>
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define SHA256_DIGEST_LENGTH 32
+#define BAD_HASH_SIZE(b, hb) (\
+	!block_hash(b, hb) || memcmp(hb, b->hash, SHA256_DIGEST_LENGTH))
 
 /**
  * struct block_info_s - Block info structure
