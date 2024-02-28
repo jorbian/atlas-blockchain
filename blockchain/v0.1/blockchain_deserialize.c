@@ -2,16 +2,22 @@
 
 /**
  * write_blocks - Deserialize blocks from a file and add them to a blockchain
- * @size: Number of blocks to deserialize
  * @fd: File descriptor of the file containing serialized blocks
  * @chain: Pointer to the blockchain where blocks will be added
  *
  * Return: Pointer to the updated blockchain
  */
-static blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
+static blockchain_t *write_blocks(FILE *fd, blockchain_t *chain)
 {
 	block_t *block;
-	uint32_t i;
+	uint8_t end;
+	uint32_t i, size;
+	char buf[4] = {0};
+
+	fread(buf, sizeof(uint8_t), 4, fd);
+	fread(buf, sizeof(uint8_t), 3, fd);
+	fread(&end, sizeof(uint8_t), 1, fd);
+	fread(&size, sizeof(uint32_t), 1, fd);
 
 	for (i = 0; i < size; i++)
 	{
@@ -71,7 +77,6 @@ static blockchain_t *create_new_blockchain()
 blockchain_t *blockchain_deserialize(char const *path)
 {
 	FILE *fd;
-	uint32_t size;
 
 	blockchain_t *blockchain;
 
@@ -79,15 +84,9 @@ blockchain_t *blockchain_deserialize(char const *path)
 		return (NULL);
 
 	blockchain = create_new_blockchain();
-
 	if (blockchain != NULL)
-	{
-		fseek(fd, 0, 9);
+		blockchain = write_blocks(fd, blockchain);
 
-		fread(&size, sizeof(uint32_t), 1, fd);
-		
-		blockchain = write_blocks(size, fd, blockchain);
-	}
 	fclose(fd);
 
 	return (blockchain);
