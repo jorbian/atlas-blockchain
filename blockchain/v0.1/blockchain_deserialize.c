@@ -80,11 +80,16 @@ blockchain_t *blockchain_deserialize(char const *path)
 	if (!path || (access_file(&fd, path) != 0))
 		return (NULL);
 
-	fread(buf, sizeof(uint8_t), 7, fd);
-	fread(&end, sizeof(uint8_t), 1, fd);
-	fread(&size, sizeof(uint32_t), 1, fd);
-	
-	blockchain = write_blocks(size, fd, blockchain);
+	blockchain = create_new_blockchain();
+
+	if (blockchain != NULL)
+	{
+		fread(buf, sizeof(uint8_t), 7, fd);
+		fread(&end, sizeof(uint8_t), 1, fd);
+		fread(&size, sizeof(uint32_t), 1, fd);
+		
+		blockchain = write_blocks(size, fd, blockchain);
+	}
 	fclose(fd);
 
 	return (blockchain);
