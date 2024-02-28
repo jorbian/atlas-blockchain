@@ -40,6 +40,23 @@ typedef struct sig_s
 } sig_t;
 
 /**
+ * struct block_data_s - Block data
+ *
+ * @buffer: Data buffer
+ * @len:    Data size (in bytes)
+ */
+typedef struct block_data_s
+{
+	/*
+	 * @buffer must stay first, so we can directly use the structure as
+	 * an array of char
+	 */
+	int8_t      buffer[BLOCKCHAIN_DATA_MAX];
+	uint32_t    len;
+} block_data_t;
+
+
+/**
  * struct blockchain_s - Blockchain structure
  *
  * @chain: Linked list of pointers to block_t
@@ -91,22 +108,6 @@ typedef struct block_s
 	llist_t     *transactions;
 	uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
-
-/**
- * struct block_data_s - Block data
- *
- * @buffer: Data buffer
- * @len:    Data size (in bytes)
- */
-typedef struct block_data_s
-{
-	/*
-	 * @buffer must stay first, so we can directly use the structure as
-	 * an array of char
-	 */
-	int8_t      buffer[BLOCKCHAIN_DATA_MAX];
-	uint32_t    len;
-} block_data_t;
 
 blockchain_t *blockchain_create(void);
 block_t *block_create(
