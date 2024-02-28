@@ -18,6 +18,7 @@ EC_KEY *ec_create(void)
 	new_ec_key = EC_KEY_new_by_curve_name(EC_CURVE);
 
 	EC_KEY_set_asn1_flag(new_ec_key, OPENSSL_EC_NAMED_CURVE);
+
 	if (!(EC_KEY_generate_key(new_ec_key)))
 		return (NULL);
 
