@@ -10,6 +10,7 @@
 
 #define BLOCKCHAIN_DATA_MAX 1024
 #define SHA256_DIGEST_LENGTH 32
+#define CANT_HASH(b, hb) !block_hash(b, hb)
 
 /**
  * struct block_info_s - Block info structure

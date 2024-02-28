@@ -28,6 +28,27 @@ static int deal_with_first(block_t const *block)
 }
 
 /**
+ * deal_with_first - branch if it's the first block in chain
+ * @block: the block we're looking at.
+ *
+ * Return: Is it valid or not? 0 for yes -- 1 for no
+*/
+static int deal_with_nth(block_t const *block, block_t const *prev_block)
+{
+	uint8_t hash_buf[SHA256_DIGEST_LENGTH] = {0};
+
+	return (
+		(block->info.index != prev_block->info.index + 1) ||
+		(CANT_HASH(prev_block, hash_buf)) ||
+		(memcmp(hash_buf, prev_block->hash, SHA256_DIGEST_LENGTH)) ||
+		(memcmp(prev_block->hash, block->info.prev_hash, SHA256_DIGEST_LENGTH)) ||
+		(CANT_HASH(block, hash_buf) ||
+		memcmp(hash_buf, block->hash, SHA256_DIGEST_LENGTH)) ||
+		(block->data.len > BLOCKCHAIN_DATA_MAX)
+	);
+}
+
+/**
  * block_is_valid - verifies that a Block is valid
  * @block: points to the Block to check
  * @prev_block: points to previous Block in the chain (or NULL)
@@ -36,30 +57,11 @@ static int deal_with_first(block_t const *block)
 */
 int block_is_valid(block_t const *block, block_t const *prev_block)
 {
-	uint8_t hash_buf[SHA256_DIGEST_LENGTH] = {0};
-
 	if (!block || (!prev_block && block->info.index != 0))
 		return (1);
 
 	if (block->info.index == 0)
 		return (deal_with_first(block));
-
-	if (block->info.index != prev_block->info.index + 1)
-		return (1);
-
-	if (!block_hash(prev_block, hash_buf) ||
-		memcmp(hash_buf, prev_block->hash, SHA256_DIGEST_LENGTH))
-		return (1);
-
-	if (memcmp(prev_block->hash, block->info.prev_hash, SHA256_DIGEST_LENGTH))
-		return (1);
-
-	if (!block_hash(block, hash_buf) ||
-		memcmp(hash_buf, block->hash, SHA256_DIGEST_LENGTH))
-		return (1);
-
-	if (block->data.len > BLOCKCHAIN_DATA_MAX)
-		return (1);
 
 	return (0);
 }
