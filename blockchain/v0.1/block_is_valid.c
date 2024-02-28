@@ -63,5 +63,5 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 	if (block->info.index == 0)
 		return (deal_with_first(block));
 
-	return (0);
+	return (deal_with_nth(block, prev_block));
 }
