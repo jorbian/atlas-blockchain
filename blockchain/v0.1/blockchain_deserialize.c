@@ -36,7 +36,7 @@ static blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
 */
 static uint8_t access_file(FILE **fd, char const *path)
 {
-	FILE *fd = fopen(path, "r");
+	*fd = fopen(path, "r");
 
 	if (!*fd)
 		return (-1);
