@@ -48,7 +48,7 @@ blockchain_t *blockchain_create(void)
 			"Holberton School", /* buffer */
 			16 /* len */
 		},
-		NULL
+		{0}
 		/* hash */
 		/* c52c26c8b5461639635d8edf2a97d48d0c8e0009c817f2b1d3d7ff2f04515803 */
 	};
