@@ -18,16 +18,9 @@ unspent_tx_out_t *unspent_tx_out_create(
 	if (!new_unspent)
 		return (NULL);
 
-	memcpy(
-		new_unspent->block_hash,
-		block_hash,
-		SHA256_DIGEST_LENGTH
-	);
-	memcpy(
-		new_unspent->tx_id,
-		tx_id,
-		SHA256_DIGEST_LENGTH
-	);
+	memcpy(new_unspent->block_hash, block_hash, SHA256_DIGEST_LENGTH);
+	memcpy(new_unspent->tx_id, tx_id, SHA256_DIGEST_LENGTH);
+
 	memcpy(&new_unspent->out, out, sizeof(tx_out_t));
 
 	return (new_unspent);
