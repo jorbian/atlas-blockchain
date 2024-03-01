@@ -12,7 +12,10 @@
 */
 static blockchain_t *allocate_memory(block_t **block, blockchain_t *chain)
 {
-	chain = calloc(1, sizeof(blockchain_t));
+	(void)block;
+	(void)chain;
+
+	/*chain = calloc(1, sizeof(blockchain_t));
 
 	if (chain != NULL)
 	{
@@ -21,7 +24,7 @@ static blockchain_t *allocate_memory(block_t **block, blockchain_t *chain)
 			return (chain);
 
 		return (NULL);
-	}
+	}*/
 	return (NULL);
 }
 
