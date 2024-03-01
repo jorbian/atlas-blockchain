@@ -12,9 +12,23 @@ unspent_tx_out_t *unspent_tx_out_create(
 	uint8_t block_hash[SHA256_DIGEST_LENGTH],
 	uint8_t tx_id[SHA256_DIGEST_LENGTH], tx_out_t const *out)
 {
-	(void)block_hash;
-	(void)tx_id;
-	(void)out;
+	unspent_tx_out_t *new_unspent;
 
-	return (NULL);
+	new_unspent = calloc(1, sizeof(unspent_tx_out_t));
+	if (!new_unspent)
+		return (NULL);
+
+	memcpy(
+		new_unspent->block_hash,
+		block_hash,
+		SHA256_DIGEST_LENGTH
+	);
+	memcpy(
+		new_unspent->tx_id,
+		tx_id,
+		SHA256_DIGEST_LENGTH
+	);
+	memcpy(&new_unspent->out, out, sizeof(tx_out_t));
+
+	return (new_unspent);
 }
