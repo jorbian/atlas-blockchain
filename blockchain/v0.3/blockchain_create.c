@@ -35,5 +35,7 @@ static blockchain_t *allocate_memory(block_t **block, blockchain_t *chain)
 */
 blockchain_t *blockchain_create(void)
 {
+	allocate_memory(NULL, NULL);
+
 	return (NULL);
 }
