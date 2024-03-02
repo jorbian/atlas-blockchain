@@ -14,10 +14,10 @@ transaction_t *transaction_create(
 	EC_KEY const *receiver,
 	uint32_t amount, llist_t *all_unspent)
 {
+	transaction_t *new_transaction;
+
 	(void)sender;
 	(void)receiver;
-
-	transaction_t *new_transaction;
 
 	new_transaction = calloc(1, sizeof(unspent_tx_out_t));
 	if (!new_transaction)
