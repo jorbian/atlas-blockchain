@@ -48,6 +48,9 @@ transaction_t *coinbase_create(
 	if (!receiver || !ec_to_pub(receiver, pub_key))
 		return (NULL);
 
+	if (!allocate_memory_for_structs())
+		return (NULL);
+
 	memcpy(tx_in->tx_out_hash, &block_index, 4);
 
 	new_coinbase->inputs = llist_create(MT_SUPPORT_FALSE);
