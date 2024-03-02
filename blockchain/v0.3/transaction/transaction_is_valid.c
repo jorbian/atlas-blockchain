@@ -1,5 +1,13 @@
 #include "transaction.h"
 
+#define IN 0
+#define OUT 1
+
+static uint32_t sum[2];
+static uint8_t hash_buf[SHA256_DIGEST_LENGTH];
+static tx_in_t *tx_in;
+static unspent_tx_out_t *uns_out;
+
 /**
  * transaction_is_valid - checks whether transaction is valid
  * @transaction: points to the transaction to verify
@@ -11,11 +19,7 @@ int transaction_is_valid(
 	transaction_t const *transaction,
 	llist_t *all_unspent)
 {
-	uint8_t hash_buf[SHA256_DIGEST_LENGTH];
-	uint32_t sum_in = 0, sum_out = 0;
 	int i, j, size_usp;
-	tx_in_t *tx_in;
-	unspent_tx_out_t *uns_out;
 	EC_KEY *uns_pub_key;
 
 	if (!transaction || !all_unspent)
@@ -46,11 +50,12 @@ int transaction_is_valid(
 		EC_KEY_free(uns_pub_key);
 		if (j == 0)
 			return (0);
-		sum_in += uns_out->out.amount; /* collectiong total amount of inputs */
+		sum[IN] += uns_out->out.amount; /* collectiong total amount of inputs */
 	}
 	for (i = 0; i < llist_size(transaction->outputs); i++)
-		sum_out += ((tx_out_t *)llist_get_node_at(transaction->outputs, i))->amount;
-	if (sum_in != sum_out) /* total amount of inputs and that of outputs */
+		sum[OUT] += ((tx_out_t *)llist_get_node_at(transaction->outputs, i))->amount;
+
+	if (sum[IN] != sum[OUT]) /* total amount of inputs and that of outputs */
 		return (0);
 	return (1);
 }
