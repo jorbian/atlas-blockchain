@@ -1,5 +1,40 @@
 #include "transaction.h"
 
+
+/**
+ * input_selector - function to select inputs
+ * @input_list: input list
+ * @all_unspent: the list of all the unspent outputs to date
+ * @amount: the amount to send
+ * @key_in: sender public key
+ * Return: balance for the transaction
+ */
+static uint32_t input_selector(
+	llist_t *input_list, llist_t *all_unspent,
+	uint32_t amount, uint8_t key_in[EC_PUB_LEN])
+{
+	tx_in_t *tx_in_curr;
+	unspent_tx_out_t *usp;
+	int i, diff;
+	uint32_t balance = 0;
+
+	for (i = 0; i < llist_size(all_unspent); i++)
+	{
+		usp = llist_get_node_at(all_unspent, i);
+		diff = memcmp(usp->out.pub, key_in, EC_PUB_LEN);
+		if (diff == 0)
+		{
+			tx_in_curr = tx_in_create(usp);
+			llist_add_node(input_list, tx_in_curr, ADD_NODE_REAR);
+			balance += usp->out.amount;
+			if (balance >= amount)
+				break;
+		}
+	}
+	return (balance);
+}
+
+
 /**
  * tx_init - create and initialize transaction_t
  *
@@ -13,11 +48,11 @@ static transaction_t *tx_init(void)
 	if (new_transaction == NULL)
 		return (NULL);
 
-	new_transaction->inputs = initalize_param_list();
+	new_transaction->inputs = llist_create(MT_SUPPORT_FALSE);
 	if (!new_transaction->inputs)
 		goto overall_failure;
 
-	new_transaction->outputs = initalize_param_list();
+	new_transaction->outputs = llist_create(MT_SUPPORT_FALSE);
 	if (!new_transaction->outputs)
 		goto output_alloc_fail;
 
@@ -30,18 +65,6 @@ overall_failure:
 	free(new_transaction);
 
 	return (NULL);
-}
-
-static llist_t *initalize_param_list()
-{
-	llist_t *new_param_list;
-
-	new_param_list = llist_create(MT_SUPPORT_FALSE);
-
-	if (!new_param_list)
-		return (NULL);
-
-	return (new_param_list);
 }
 
 /**
@@ -104,36 +127,3 @@ abort_txn_initilization:
 	return (NULL);
 }
 
-
-/**
- * input_selector - function to select inputs
- * @input_list: input list
- * @all_unspent: the list of all the unspent outputs to date
- * @amount: the amount to send
- * @key_in: sender public key
- * Return: balance for the transaction
- */
-uint32_t input_selector(
-	llist_t *input_list, llist_t *all_unspent,
-	uint32_t amount, uint8_t key_in[EC_PUB_LEN])
-{
-	tx_in_t *tx_in_curr;
-	unspent_tx_out_t *usp;
-	int i, diff;
-	uint32_t balance = 0;
-
-	for (i = 0; i < llist_size(all_unspent); i++)
-	{
-		usp = llist_get_node_at(all_unspent, i);
-		diff = memcmp(usp->out.pub, key_in, EC_PUB_LEN);
-		if (diff == 0)
-		{
-			tx_in_curr = tx_in_create(usp);
-			llist_add_node(input_list, tx_in_curr, ADD_NODE_REAR);
-			balance += usp->out.amount;
-			if (balance >= amount)
-				break;
-		}
-	}
-	return (balance);
-}
