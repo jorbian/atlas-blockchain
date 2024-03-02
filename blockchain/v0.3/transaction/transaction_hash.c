@@ -44,6 +44,7 @@ uint8_t *transaction_hash(
 		memcpy(buf_to_hash + buffer_offset,
 			this_output->hash,
 			SHA256_DIGEST_LENGTH);
+		buffer_offset += SHA256_DIGEST_LENGTH;
 	}
 	SHA256(buf_to_hash, buf_to_hash_len, hash_buf);
 	free(buf_to_hash);
