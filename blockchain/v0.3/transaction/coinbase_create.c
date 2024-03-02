@@ -34,6 +34,11 @@ about_cb_creation:
 	return (0);
 }
 
+/**
+ * init_parameter_struct - initalizes either the inputs or outparameters of cb
+ * @param_list: DOUBLE pointer to whichever list we're working on
+ * @host: DOUBLE pointer to the struct we're getting data from
+*/
 static void init_parameter_struct(llist_t **param_list, void **host)
 {
 	*param_list = llist_create(MT_SUPPORT_FALSE);
