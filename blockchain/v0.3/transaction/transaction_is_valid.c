@@ -99,7 +99,7 @@ int transaction_is_valid(
 	if (!hash_matches(transaction))
 		return (0);
 
- 	walk_inputs(transaction, all_unspent);
+	walk_inputs(transaction, all_unspent);
 
 	for (i = 0; i < llist_size(transaction->outputs); i++)
 		sum[OUT] += ((tx_out_t *)llist_get_node_at(transaction->outputs, i))->amount;

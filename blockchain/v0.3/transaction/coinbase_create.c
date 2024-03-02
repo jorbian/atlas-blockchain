@@ -59,8 +59,8 @@ transaction_t *coinbase_create(
 
 	memcpy(tx_in->tx_out_hash, &block_index, 4);
 
-	init_parameter_struct(&(new_coinbase->inputs), &tx_in);
-	init_parameter_struct(&(new_coinbase->outputs), &tx_out);
+	init_parameter_struct(&(new_coinbase->inputs), (void **)&tx_in);
+	init_parameter_struct(&(new_coinbase->outputs), (void **)&tx_out);
 
 	if (!transaction_hash(new_coinbase, new_coinbase->id))
 		goto abort_cb_creation;
