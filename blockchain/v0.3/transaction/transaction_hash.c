@@ -1,5 +1,18 @@
 #include "transaction.h"
 
+static uint32_t dims[3];
+static uint32_t buffer_offset = 0;
+
+static void calculate_dimensions(transaction_t const *txn)
+{
+	dims[0] = llist_size(txn->inputs);
+	dims[1] = llist_size(txn->outputs);
+	dims[2] = (
+		(dims[0] * TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH) +
+		(dims[1] * SHA256_DIGEST_LENGTH)
+	);
+}
+
 /**
  * transaction_hash - computes the ID (hash) of a transaction
  * @transaction: transaction to compute the hash of
@@ -12,41 +25,36 @@ uint8_t *transaction_hash(
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
 	uint8_t *buf_to_hash;
-	uint32_t buf_to_hash_len, buffer_offset = 0, input_qty, output_qty;
-	uint32_t inputs_len, outputs_len, index;
+	uint32_t i;
 	tx_in_t *this_input;
 	tx_out_t *this_output;
 
 	if (!transaction || !hash_buf)
 		return (NULL);
 
-	input_qty = llist_size(transaction->inputs);
-	output_qty = llist_size(transaction->outputs);
-	inputs_len = input_qty * TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH;
-	outputs_len = output_qty * SHA256_DIGEST_LENGTH;
-	buf_to_hash_len = inputs_len + outputs_len;
+	calculate_dimensions(transaction);
 
-	buf_to_hash = malloc(buf_to_hash_len);
+	buf_to_hash = malloc(dims[2]);
 	if (!buf_to_hash)
 		return (NULL);
 
-	for (index = 0; index < input_qty; index++)
+	for (i = 0; i < dims[0]; i++)
 	{
-		this_input = llist_get_node_at(transaction->inputs, index);
+		this_input = llist_get_node_at(transaction->inputs, i);
 		memcpy(buf_to_hash + buffer_offset,
 			this_input,
 			TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH);
 		buffer_offset += TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH;
 	}
-	for (index = 0; index < output_qty; index++)
+	for (i = 0; i < dims[1]; i++)
 	{
-		this_output = llist_get_node_at(transaction->outputs, index);
+		this_output = llist_get_node_at(transaction->outputs, i);
 		memcpy(buf_to_hash + buffer_offset,
 			this_output->hash,
 			SHA256_DIGEST_LENGTH);
 		buffer_offset += SHA256_DIGEST_LENGTH;
 	}
-	SHA256(buf_to_hash, buf_to_hash_len, hash_buf);
+	SHA256(buf_to_hash, dims[2], hash_buf);
 	free(buf_to_hash);
 
 	return (hash_buf);
