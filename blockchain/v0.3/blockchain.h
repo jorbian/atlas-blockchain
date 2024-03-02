@@ -8,21 +8,9 @@
 #include <stdint.h>
 #include <openssl/sha.h>
 #include <time.h>
-
-#define GENESIS_HASH \
-	"\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4" \
-	"\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51" \
-	"\x58\x03"
-/* c52c26c8b5461639635d8edf2a97d48d0c8e0009c817f2b1d3d7ff2f04515803 */
-
-#define HBLK_MAGIC "HBLK"
-#define HBLK_VERSION "0.3"
-#define HBLK_BIG_ENDIAN 2
-#define HBLK_LITTLE_ENDIAN 1
-#define HBLK_INVALID_ENDIAN 0
-#define BLOCK_GENERATION_INTERVAL 1
-#define DIFFICULTY_ADJUSTMENT_INTERVAL 5
-
+#include "../../crypto/hblk_crypto.h"
+#include "provided/endianness.h"
+#include "transaction/transaction.h"
 
 /**
  * struct blockchain_s - Blockchain structure
