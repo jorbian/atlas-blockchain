@@ -1,15 +1,28 @@
 #include "transaction.h"
 
-static uint32_t dims[3];
-static uint32_t buffer_offset = 0;
+#define INPUTS 0
+#define OUTPUTS 1
+#define HASH 2
 
+static uint32_t dims[3];
+static uint32_t item_size[2] = {
+	(TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH),
+	(SHA256_DIGEST_LENGTH)
+};
+static uint32_t buffer_offset;
+
+/**
+ * calculate_dimensions - calculates the overall dimensions of txn
+ * @txn: pointer to the transaction struct fed into wrapper.
+ *
+*/
 static void calculate_dimensions(transaction_t const *txn)
 {
-	dims[0] = llist_size(txn->inputs);
-	dims[1] = llist_size(txn->outputs);
-	dims[2] = (
-		(dims[0] * TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH) +
-		(dims[1] * SHA256_DIGEST_LENGTH)
+	dims[INPUTS] = llist_size(txn->inputs);
+	dims[OUTPUTS] = llist_size(txn->outputs);
+	dims[HASH] = (
+		(dims[INPUTS] * item_size[INPUTS]) +
+		(dims[OUTPUTS] * item_size[OUTPUTS])
 	);
 }
 
@@ -29,6 +42,8 @@ uint8_t *transaction_hash(
 	tx_in_t *this_input;
 	tx_out_t *this_output;
 
+	buffer_offset = 0;
+
 	if (!transaction || !hash_buf)
 		return (NULL);
 
@@ -38,21 +53,21 @@ uint8_t *transaction_hash(
 	if (!buf_to_hash)
 		return (NULL);
 
-	for (i = 0; i < dims[0]; i++)
+	for (i = 0; i < dims[INPUTS]; i++)
 	{
 		this_input = llist_get_node_at(transaction->inputs, i);
 		memcpy(buf_to_hash + buffer_offset,
 			this_input,
-			TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH);
-		buffer_offset += TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH;
+			item_size[INPUTS]);
+		buffer_offset += item_size[INPUTS];
 	}
 	for (i = 0; i < dims[1]; i++)
 	{
 		this_output = llist_get_node_at(transaction->outputs, i);
 		memcpy(buf_to_hash + buffer_offset,
 			this_output->hash,
-			SHA256_DIGEST_LENGTH);
-		buffer_offset += SHA256_DIGEST_LENGTH;
+			item_size[OUTPUTS]);
+		buffer_offset += item_size[OUTPUTS];
 	}
 	SHA256(buf_to_hash, dims[2], hash_buf);
 	free(buf_to_hash);
