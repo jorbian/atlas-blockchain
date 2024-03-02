@@ -33,7 +33,7 @@ static uint32_t create_txn_outputs(uint32_t amount)
 */
 static uint32_t create_txn_inputs(EC_KEY const *sender, llist_t *all_unspent)
 {
-	uint32_t i;
+	int32_t i;
 
 	for (i = 0; i < llist_size(new_transaction->inputs); i++)
 	{
