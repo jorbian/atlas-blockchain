@@ -2,7 +2,7 @@
 #include <time.h>
 
  #include "blockchain.h"
- 
+
 /**
  * add_previous - add previous block in the chain -- if there was one
  * @prev: pointer to the previous block

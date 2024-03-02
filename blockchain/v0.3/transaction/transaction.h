@@ -51,7 +51,6 @@ typedef struct tx_out_s
  */
 typedef struct tx_in_s
 {
-/* if modifying the qty of hashes, update TX_IN_HASH_QTY define below */
 	uint8_t     block_hash[SHA256_DIGEST_LENGTH];
 	uint8_t     tx_id[SHA256_DIGEST_LENGTH];
 	uint8_t     tx_out_hash[SHA256_DIGEST_LENGTH];
