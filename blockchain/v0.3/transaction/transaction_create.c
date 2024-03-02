@@ -19,6 +19,7 @@ transaction_t *transaction_create(
 	(void)sender;
 	(void)receiver;
 	(void)amount;
+	(void)all_unspent;
 
 	new_transaction = calloc(1, sizeof(unspent_tx_out_t));
 	if (!new_transaction)
