@@ -53,4 +53,4 @@ uint8_t *transaction_hash(
 	free(buf_to_hash);
 
 	return (hash_buf);
-
+}
