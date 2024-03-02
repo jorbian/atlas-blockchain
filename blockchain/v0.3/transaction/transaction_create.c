@@ -122,9 +122,6 @@ transaction_t *transaction_create(
 	EC_KEY const *receiver,
 	uint32_t amount, llist_t *all_unspent)
 {
-	tx_out_t *tx_out;
-	int i;
-
 	ec_to_pub(sender, key_in);
 	ec_to_pub(receiver, key_out);
 
