@@ -34,6 +34,12 @@ about_cb_creation:
 	return (0);
 }
 
+static void init_parameter_struct(llist_t **param_list, void **host)
+{
+	*param_list = llist_create(MT_SUPPORT_FALSE);
+	llist_add_node(*param_list, (llist_node_t *)*host, ADD_NODE_REAR);
+}
+
 /**
  * coinbase_create - creates a coinbase transaction
  * @receiver: public key of miner, who will receive coinbase coins
@@ -53,11 +59,8 @@ transaction_t *coinbase_create(
 
 	memcpy(tx_in->tx_out_hash, &block_index, 4);
 
-	new_coinbase->inputs = llist_create(MT_SUPPORT_FALSE);
-	llist_add_node(new_coinbase->inputs, tx_in, ADD_NODE_REAR);
-
-	new_coinbase->outputs = llist_create(MT_SUPPORT_FALSE);
-	llist_add_node(new_coinbase->outputs, tx_out, ADD_NODE_REAR);
+	init_parameter_struct(&(new_coinbase->inputs), &tx_in);
+	init_parameter_struct(&(new_coinbase->outputs), &tx_out);
 
 	if (!transaction_hash(new_coinbase, new_coinbase->id))
 		goto abort_cb_creation;
