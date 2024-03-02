@@ -1,20 +1,6 @@
 #include "transaction.h"
 
 /**
- * calculate_hash_size - calculate the needed size of hash buffer
- * @txn: pointer to the transaction struct
- *
- * Return: Whatever size ends up being needed.
-*/
-static uint32_t calculate_hash_size(transaction_t const *txn)
-{
-	return (
-		(llist_size(txn->inputs) * TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH) +
-		(llist_size(txn->outputs) * SHA256_DIGEST_LENGTH)
-	);
-}
-
-/**
  * transaction_hash - computes the ID (hash) of a transaction
  * @transaction: transaction to compute the hash of
  * @hash_buf: buffer in which to store the computed hash
@@ -27,14 +13,20 @@ uint8_t *transaction_hash(
 {
 	uint8_t *buf_to_hash;
 	uint32_t buf_to_hash_len, buffer_offset = 0, input_qty, output_qty;
-	uint32_t index;
+	uint32_t inputs_len, outputs_len, index;
 	tx_in_t *this_input;
 	tx_out_t *this_output;
 
 	if (!transaction || !hash_buf)
 		return (NULL);
 
-	buf_to_hash = malloc(calculate_hash_size(transaction));
+	input_qty = llist_size(transaction->inputs);
+	output_qty = llist_size(transaction->outputs);
+	inputs_len = input_qty * TX_IN_HASH_QTY * SHA256_DIGEST_LENGTH;
+	outputs_len = output_qty * SHA256_DIGEST_LENGTH;
+	buf_to_hash_len = inputs_len + outputs_len;
+
+	buf_to_hash = malloc(buf_to_hash_len);
 	if (!buf_to_hash)
 		return (NULL);
 
