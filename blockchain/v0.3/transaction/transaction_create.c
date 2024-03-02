@@ -1,6 +1,48 @@
 #include "transaction.h"
 
+static transaction_t *new_transaction;
+static tx_out_t *tx_out;
+static tx_in_t *tx_in;
+static uint32_t balance;
+static uint8_t key_in[EC_PUB_LEN], key_out[EC_PUB_LEN];
 
+/**
+ * create_txn_outputs - goes through and adds the needed data to list
+ * @amount: the amount of the transaction.
+ *
+ * Return: If there was a problem or not.
+*/
+static uint32_t create_txn_outputs(uint32_t amount)
+{
+	tx_out = tx_out_create(amount, key_out);
+	llist_add_node(new_transaction->outputs, tx_out, ADD_NODE_REAR);
+	if (balance > amount)
+	{
+		tx_out = tx_out_create(balance - amount, key_in);
+		llist_add_node(new_transaction->outputs, tx_out, ADD_NODE_REAR);
+	}
+	return (-1);
+}
+
+/**
+ * create_txn_inputs - goes through and adds the needed data to list
+ * @sender: the amount of the transaction.
+ * @all_unspent: unspent transactions
+ *
+ * Return: If there was a problem or not.
+*/
+static uint32_t create_txn_inputs(EC_KEY const *sender, llist_t *all_unspent)
+{
+	uint32_t i;
+
+	for (i = 0; i < llist_size(new_transaction->inputs); i++)
+	{
+		tx_in = llist_get_node_at(new_transaction->inputs, i);
+		if (tx_in_sign(tx_in, new_transaction->id, sender, all_unspent) == 0)
+			return (0);
+	}
+	return (-1);
+}
 /**
  * input_selector - function to select inputs
  * @input_list: input list
@@ -33,7 +75,6 @@ static uint32_t input_selector(
 	}
 	return (balance);
 }
-
 
 /**
  * tx_init - create and initialize transaction_t
@@ -81,12 +122,8 @@ transaction_t *transaction_create(
 	EC_KEY const *receiver,
 	uint32_t amount, llist_t *all_unspent)
 {
-	transaction_t *new_transaction = NULL;
 	tx_out_t *tx_out;
-	tx_in_t *tx_in;
-	uint8_t key_in[EC_PUB_LEN], key_out[EC_PUB_LEN];
 	int i;
-	uint32_t balance = 0;
 
 	ec_to_pub(sender, key_in);
 	ec_to_pub(receiver, key_out);
@@ -97,26 +134,19 @@ transaction_t *transaction_create(
 
 	balance = input_selector(
 		new_transaction->inputs,
-		all_unspent, amount, key_in
-	);
+		all_unspent,
+		amount, key_in);
+
 	if (balance < amount) /* if not enough to proceed the transaction */
 		goto abort_txn_initilization;
 
-	tx_out = tx_out_create(amount, key_out); /* create outputs */
-	llist_add_node(new_transaction->outputs, tx_out, ADD_NODE_REAR);
-	if (balance > amount) /* extra action for sending back the difference */
-	{
-		tx_out = tx_out_create(balance - amount, key_in);
-		llist_add_node(new_transaction->outputs, tx_out, ADD_NODE_REAR);
-	}
+	create_txn_outputs(amount);
+
 	transaction_hash(new_transaction, new_transaction->id);
-	/* sign the inputs with computed hash */
-	for (i = 0; i < llist_size(new_transaction->inputs); i++)
-	{
-		tx_in = llist_get_node_at(new_transaction->inputs, i);
-		if (tx_in_sign(tx_in, new_transaction->id, sender, all_unspent) == 0)
-			goto abort_txn_initilization;
-	}
+
+	if (!create_txn_inputs(sender, all_unspent))
+		goto abort_txn_initilization;
+
 	return (new_transaction);
 
 abort_txn_initilization:
@@ -126,4 +156,3 @@ abort_txn_initilization:
 
 	return (NULL);
 }
-
