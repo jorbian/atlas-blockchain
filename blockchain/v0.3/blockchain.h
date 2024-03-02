@@ -8,10 +8,6 @@
 #include <stdint.h>
 #include <openssl/sha.h>
 #include <time.h>
-#include <stdbool.h>
-#include "../../crypto/hblk_crypto.h"
-#include "provided/endianness.h"
-#include "transaction/transaction.h"
 
 #define GENESIS_HASH \
 	"\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4" \
