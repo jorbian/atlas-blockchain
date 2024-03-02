@@ -11,12 +11,24 @@
 */
 sig_t *tx_in_sign(tx_in_t *in,
 	uint8_t const tx_id[SHA256_DIGEST_LENGTH],
-	EC_KEY const *sender, llist_t *all_unspent)
+	EC_KEY const *sender,
+	llist_t *all_unspent)
 {
-	(void)in;
-	(void)tx_id;
-	(void)sender;
-	(void)all_unspent;
+	uint8_t pub_buf[EC_PUB_LEN];
+	unspent_tx_out_t *node;
 
+	int i;
+
+	ec_to_pub(sender, pub_buf);
+
+	for (i = 0; i < llist_size(all_unspent); i++)
+	{
+		node = llist_get_node_at(all_unspent, i);
+		if (memcmp(node->out.pub, pub_buf, EC_PUB_LEN) == 0)
+		{
+			ec_sign(sender, tx_id, SHA256_DIGEST_LENGTH, &in->sig);
+			return (&in->sig);
+		}
+	}
 	return (NULL);
 }
