@@ -20,11 +20,11 @@ static uint32_t verify_key(transaction_t const *transaction)
 	int j;
 
 	uns_key = ec_from_pub(uns_out->out.pub); /* sig verify */
-	
+
 	j = ec_verify(uns_key, transaction->id, SHA256_DIGEST_LENGTH, &tx_in->sig);
-	
+
 	EC_KEY_free(uns_key);
-	
+
 	if (j == 0)
 		return (0);
 
@@ -64,9 +64,9 @@ static uint32_t walk_inputs(
 		{
 			uns_out = llist_get_node_at(all_unspent, j);
 			if (memcmp(uns_out->out.hash, tx_in->tx_out_hash, SHA256_DIGEST_LENGTH) == 0
-			    && memcmp(uns_out->tx_id, tx_in->tx_id, SHA256_DIGEST_LENGTH) == 0 &&
-			    memcmp(uns_out->block_hash, tx_in->block_hash, SHA256_DIGEST_LENGTH)
-			    == 0)
+				&& memcmp(uns_out->tx_id, tx_in->tx_id, SHA256_DIGEST_LENGTH) == 0 &&
+				memcmp(uns_out->block_hash, tx_in->block_hash, SHA256_DIGEST_LENGTH)
+				== 0)
 				break;
 		}
 		if (j == size_usp)
@@ -104,7 +104,7 @@ int transaction_is_valid(
 	for (i = 0; i < llist_size(transaction->outputs); i++)
 		sum[OUT] += ((tx_out_t *)llist_get_node_at(transaction->outputs, i))->amount;
 
-	if (sum[IN] != sum[OUT]) /* total amount of inputs and that of outputs */
+	if (sum[IN] != sum[OUT])
 		return (0);
 
 	return (1);
