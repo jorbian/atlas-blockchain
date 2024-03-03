@@ -53,7 +53,7 @@ int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index)
 	tx_in = llist_get_node_at(coinbase->inputs, 0);
 	tx_out = llist_get_node_at(coinbase->outputs, 0);
 	if (memcmp(&block_index, tx_in->tx_out_hash, 4) != 0)
-		return (0); /* tx_out_hash first 4 bytes check */
+		return (0);
 
 	init_zzd_in();
 
@@ -62,7 +62,8 @@ int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index)
 	    memcmp(&zz_in.sig, &tx_in->sig, sizeof(tx_in->sig)) != 0)
 		return (0);
 
-	if (tx_out->amount != COINBASE_AMOUNT) /* output amount check */
+	if (tx_out->amount != COINBASE_AMOUNT)
 		return (0);
+
 	return (1);
 }
