@@ -25,6 +25,9 @@ static uint32_t hash_matches(transaction_t const *transaction)
 	return (1);
 }
 
+/**
+ * init_zzd_in - initalize the dummy struct for comparisons
+*/
 static void init_zzd_in(void)
 {
 	memset(zz_in.tx_id, 0, SHA256_DIGEST_LENGTH);
@@ -51,6 +54,8 @@ int coinbase_is_valid(transaction_t const *coinbase, uint32_t block_index)
 	tx_out = llist_get_node_at(coinbase->outputs, 0);
 	if (memcmp(&block_index, tx_in->tx_out_hash, 4) != 0)
 		return (0); /* tx_out_hash first 4 bytes check */
+
+	init_zzd_in();
 
 	if (memcmp(zz_in.block_hash, tx_in->block_hash, SHA256_DIGEST_LENGTH) != 0
 	    || memcmp(zz_in.tx_id, tx_in->tx_id, SHA256_DIGEST_LENGTH) != 0 ||
